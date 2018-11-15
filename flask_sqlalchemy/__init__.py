@@ -560,6 +560,10 @@ class _EngineConnector(object):
             self._sa.apply_driver_hacks(self._app, info, options)
             if echo:
                 options['echo'] = echo
+            # next two lines are new
+            config_engine_opts = self._app.config.get('SQLALCHEMY_ENGINE_OPTS', {})
+            options.update(config_engine_opts)
+                
             self._engine = rv = sqlalchemy.create_engine(info, **options)
             if _record_queries(self._app):
                 _EngineDebuggingSignalEvents(self._engine,
